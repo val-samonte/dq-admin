@@ -7,7 +7,8 @@ import { AuthButton } from "@/components/AuthButton";
 import bs58 from "bs58";
 import { useSession } from "next-auth/react";
 import { FaRegUserCircle } from "@react-icons/all-files/fa/FaRegUserCircle";
-
+import { SiSociety6 } from "@react-icons/all-files/si/SiSociety6";
+import { IconContext } from "@react-icons/all-files";
 export default function Home() {
   const { data: session } = useSession();
   const onConnect = async () => {
@@ -50,7 +51,9 @@ export default function Home() {
     <>
       <header className={styles.header}>
         <div className={styles.logoContainer}>
-          <h1>logo</h1>
+          <IconContext.Provider value={{ size: "4em" }}>
+            <h1><SiSociety6 /></h1>
+          </IconContext.Provider>
         </div>
         <AuthButton
           avatarSrc={session?.user?.image}
@@ -60,8 +63,10 @@ export default function Home() {
         />
       </header>
       <main className={styles.main}>
-        <FaRegUserCircle />
-        <h4>llmas-laptrinh</h4>
+        <IconContext.Provider value={{ size: "3em" }}>
+          <FaRegUserCircle />
+        </IconContext.Provider>
+        <h4>Wallet Info</h4>
         <div>
           <h3>Address: {session?.user?.name}</h3>
           <p>Expires: {new Date(session?.expires || "").toTimeString()}</p>
