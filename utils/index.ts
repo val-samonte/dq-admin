@@ -8,4 +8,6 @@ export const getProvider = () => {
     }
   }
   return null;
-};
+}
+
+export { Signature } from "./Signature"
