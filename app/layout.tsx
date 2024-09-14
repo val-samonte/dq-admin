@@ -4,7 +4,6 @@ import "./page.module.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AppWalletProvider from "@/components/AppWalletProvider"
-import { NextAuthProvider } from "./providers"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AppWalletProvider>
-          <NextAuthProvider>
-            <Header />
-          </NextAuthProvider>
+          <Header />
           {children}
         </AppWalletProvider>
       </body>

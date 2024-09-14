@@ -33,6 +33,8 @@ export default function Header() {
         nonce: csrf,
       });
 
+      console.log("pre-msg", message, message.prepare())
+
       const data = new TextEncoder().encode(message.prepare());
       const signature = await wallet.signMessage(data);
       const serializedSignature = bs58.encode(signature);
@@ -43,11 +45,12 @@ export default function Header() {
         signature: serializedSignature,
       });
     } catch (error) {
-      console.log(error);
+      console.log("it error", error);
     }
   };
 
   useEffect(() => {
+    console.log("the sess", session)
     if (wallet.connected && status === "unauthenticated") {
       handleSignIn();
     }

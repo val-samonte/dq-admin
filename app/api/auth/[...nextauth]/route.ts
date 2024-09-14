@@ -21,8 +21,10 @@ const providers = [
     },
     async authorize(credentials, req) {
       try {
+        const parsedMessage = JSON.parse(credentials?.message || "{}")
+        console.log("post-auth", parsedMessage, credentials)
         const signinMessage = new SigninMessage(
-          JSON.parse(credentials?.message || "{}")
+          parsedMessage
         )
         const nextAuthUrl = new URL(process.env.NEXTAUTH_URL || "")
         if (signinMessage.domain !== nextAuthUrl.host) {
@@ -42,16 +44,16 @@ const providers = [
         if (!validationResult)
           throw new Error("Could not validate the signed message")
 
-        const walletAddress = signinMessage.publicKey
-        const sessionKeypair =
-          getSessionKeypair(walletAddress) ?? Keypair.generate()
+        // const walletAddress = signinMessage.publicKey
+        // const sessionKeypair =
+        //   getSessionKeypair(walletAddress) ?? Keypair.generate()
 
-        // store sessionKeypair
-        // redundant? or
-        window.localStorage.setItem(
-          `session_keypair_${walletAddress}`,
-          bs58.encode(sessionKeypair.secretKey)
-        )
+        // // store sessionKeypair
+        // // redundant? or
+        // window.localStorage.setItem(
+        //   `session_keypair_${walletAddress}`,
+        //   bs58.encode(sessionKeypair.secretKey)
+        // )
 
         return {
           id: signinMessage.publicKey,
@@ -64,18 +66,19 @@ const providers = [
 ]
 
 const handler = NextAuth({
-  session: {
-    strategy: "jwt",
-  },
-  providers,
-  callbacks: {
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.name = token.sub
-        session.user.image = `https://ui-avatars.com/api/?name=${token.sub}`
-      }
-      return session
+    providers,
+    session: {
+      strategy: "jwt",
     },
-  },
-})
+    callbacks: {
+      async session({ session, token }) {
+        if (session.user) {
+          console.log("Im saving session!", token)
+          session.user.name = token.sub;
+          session.user.image = `https://ui-avatars.com/api/?name=${token.sub}&background=random`;
+        }
+        return session;
+      },
+    },
+  })
 export { handler as GET, handler as POST }
