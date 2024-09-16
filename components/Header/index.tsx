@@ -9,6 +9,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import bs58 from "bs58";
 import { useEffect } from "react";
 import { SigninMessage } from "@/utils/SigninMessage"
+import { getSessionKeypair } from "@/utils/getSessionKeypair"
+import { Keypair } from "@solana/web3.js"
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -43,7 +45,24 @@ export default function Header() {
         message: JSON.stringify(message),
         redirect: false,
         signature: serializedSignature,
-      });
+      }).then((res) => {
+
+        if (wallet.publicKey && res?.ok) {
+          const walletAddress = wallet.publicKey.toBase58()
+          const sessionKeypair =
+            getSessionKeypair(walletAddress) ?? Keypair.generate()
+          // store sessionKeypair
+          window.localStorage.setItem(
+            `session_keypair_${walletAddress}`,
+            bs58.encode(sessionKeypair.secretKey)
+          )
+        }
+      })
+
+
+
+
+
     } catch (error) {
       console.log("it error", error);
     }

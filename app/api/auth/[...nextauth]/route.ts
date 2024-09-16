@@ -1,10 +1,7 @@
-import { getSessionKeypair } from "@/utils/getSessionKeypair"
 import { SigninMessage } from "@/utils/SigninMessage"
-import { Keypair } from "@solana/web3.js"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getCsrfToken } from "next-auth/react"
-import bs58 from 'bs58'
 
 const providers = [
   CredentialsProvider({
@@ -43,22 +40,13 @@ const providers = [
 
         if (!validationResult)
           throw new Error("Could not validate the signed message")
-
-        // const walletAddress = signinMessage.publicKey
-        // const sessionKeypair =
-        //   getSessionKeypair(walletAddress) ?? Keypair.generate()
-
-        // // store sessionKeypair
-        // // redundant? or
-        // window.localStorage.setItem(
-        //   `session_keypair_${walletAddress}`,
-        //   bs58.encode(sessionKeypair.secretKey)
-        // )
+        console.log("wattt", signinMessage)
 
         return {
           id: signinMessage.publicKey,
         }
       } catch (e) {
+        console.log("errr", e)
         return null
       }
     },
