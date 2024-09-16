@@ -17,7 +17,7 @@ export default function Header() {
   const loading = status === "loading";
 
   const wallet = useWallet();
-  const walletModal = useWalletModal();
+  const walletModal = useWalletModal()
 
   const handleSignIn = async () => {
     try {
@@ -57,11 +57,8 @@ export default function Header() {
             bs58.encode(sessionKeypair.secretKey)
           )
         }
+
       })
-
-
-
-
 
     } catch (error) {
       console.log("it error", error);

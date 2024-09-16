@@ -2,6 +2,7 @@ import { SigninMessage } from "@/utils/SigninMessage"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getCsrfToken } from "next-auth/react"
+import { cookies } from "next/headers"
 
 const providers = [
   CredentialsProvider({
@@ -19,7 +20,6 @@ const providers = [
     async authorize(credentials, req) {
       try {
         const parsedMessage = JSON.parse(credentials?.message || "{}")
-        console.log("post-auth", parsedMessage, credentials)
         const signinMessage = new SigninMessage(
           parsedMessage
         )
@@ -40,7 +40,6 @@ const providers = [
 
         if (!validationResult)
           throw new Error("Could not validate the signed message")
-        console.log("wattt", signinMessage)
 
         return {
           id: signinMessage.publicKey,
@@ -61,7 +60,11 @@ const handler = NextAuth({
     callbacks: {
       async session({ session, token }) {
         if (session.user) {
-          console.log("Im saving session!", token)
+          cookies().set("walletAddress", `${token.sub}`, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 7 * 1000,
+            expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
+          })
           session.user.name = token.sub;
           session.user.image = `https://ui-avatars.com/api/?name=${token.sub}&background=random`;
         }
