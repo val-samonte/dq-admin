@@ -1,12 +1,12 @@
 [package]
-name = "admin"
+name = "item-blueprint"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "admin"
+name = "item_blueprint"
 
 [features]
 default = []
