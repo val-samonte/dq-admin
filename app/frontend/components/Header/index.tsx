@@ -52,6 +52,7 @@ export default function Header() {
           const sessionKeypair =
             getSessionKeypair(walletAddress) ?? Keypair.generate()
           // store sessionKeypair
+          // dunno where to use this? overkill kasi may cookies pa?
           window.localStorage.setItem(
             `session_keypair_${walletAddress}`,
             bs58.encode(sessionKeypair.secretKey)
