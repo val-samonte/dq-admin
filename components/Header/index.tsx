@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { SigninMessage } from "@/utils/SigninMessage"
 import { getSessionKeypair } from "@/utils/getSessionKeypair"
 import { Keypair } from "@solana/web3.js"
+import { Button } from "@headlessui/react"
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -89,9 +90,9 @@ export default function Header() {
               <span className={styles.notSignedInText}>
                 You are not signed in
               </span>
-              <span className={styles.buttonPrimary} onClick={handleSignIn}>
+              <Button className="float-right rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700" onClick={handleSignIn}>
                 Sign in
-              </span>
+              </Button>
             </>
           )}
           {session?.user && (
@@ -102,11 +103,15 @@ export default function Header() {
                   className={styles.avatar}
                 />
               )}
-              <span className={styles.signedInText}>
-                <small>Signed in as</small>
-                <br />
-                <strong>{session.user.email ?? session.user.name}</strong>
-              </span>
+              <nav className={styles.navContainer}>
+                <ul className={styles.navItems}>
+                  <li className={styles.navItem}>
+                    <Link legacyBehavior href="/">
+                      <a>Home</a>
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
               <a
                 href={`/api/auth/signout`}
                 className={styles.button}
@@ -121,25 +126,6 @@ export default function Header() {
           )}
         </p>
       </div>
-      <nav>
-        <ul className={styles.navItems}>
-          <li className={styles.navItem}>
-            <Link legacyBehavior href="/">
-              <a>Home</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link legacyBehavior href="/api/protected">
-              <a>Protected API Route</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link legacyBehavior href="/me">
-              <a>Me</a>
-            </Link>
-          </li>
-        </ul>
-      </nav>
     </header>
   );
 }
