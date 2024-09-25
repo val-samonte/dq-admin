@@ -90,7 +90,7 @@ export default function Header() {
               <span className={styles.notSignedInText}>
                 You are not signed in
               </span>
-              <Button className="float-right rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700" onClick={handleSignIn}>
+              <Button className={styles.button} onClick={handleSignIn}>
                 Sign in
               </Button>
             </>

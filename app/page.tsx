@@ -4,9 +4,12 @@ import { Button } from "@headlessui/react"
 import { useSession } from "next-auth/react"
 import Image from 'next/image'
 import styles from "./page.module.css";
+import { CreateBlueprintDialog } from "@/components/CreateBlueprintDialog"
+import { useState } from "react"
 
 export default function Home() {
   const { data: session } = useSession();
+  const [showBpForm, setShowBpForm] = useState(false)
 
   return (
     <main className="flex items-center justify-center min-h-screen flex-col">
@@ -15,14 +18,32 @@ export default function Home() {
       )}
       {session?.user && (
         <>
-          <div className="controls">
-            <Button className="rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700">
+          {<CreateBlueprintDialog showDialog={showBpForm} setShowDialog={setShowBpForm} />}
+          <div className={styles.action}>
+            <Button className={styles.bpButton} onClick={() => setShowBpForm(true)}>
               Create new blueprint
             </Button>
           </div>
 
           <div className={styles.bpContainer}>
-            <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 inline-flex flex-col">
+            <div className={styles.item}>
+                <a href="#" className="flex flex-col">
+                  <Image className="p-8 rounded-t-lg flex-center self-center justify-self-center max-h-lg" src="/images/Soul_Mantle_inventory_icon.png" alt="product image" width={300} height={500} />
+                </a>
+              <div className="px-5 pb-5">
+                <a href="#">
+                  <h5 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white pb-4">Cleric mantle lorem ipsum.</h5>
+                </a>
+                <div className="flex items-center justify-between">
+                    <a href="#">
+                      <span className="text-xl font-bold text-gray-900 dark:text-white">SpiderSilk Mantle</span>
+                    </a>
+                    <Button className={styles.recipeButton}>Create Recipe</Button>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.item}>
                 <a href="#" className="flex flex-col">
                   <Image className="p-8 rounded-t-lg flex-center self-center justify-self-center" src="/images/Soul_Mantle_inventory_icon.png" alt="product image" width={300} height={500} />
                 </a>
@@ -34,7 +55,7 @@ export default function Home() {
                     <a href="#">
                       <span className="text-xl font-bold text-gray-900 dark:text-white">SpiderSilk Mantle</span>
                     </a>
-                    <Button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-2">Create Recipe</Button>
+                    <Button className={styles.recipeButton}>Create Recipe</Button>
                 </div>
               </div>
             </div>
