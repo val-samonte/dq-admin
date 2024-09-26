@@ -7,7 +7,8 @@ import { CreateBlueprintDialog } from "@/components/CreateBlueprintDialog"
 import { useState } from "react"
 import { BpCard } from "@/components/BpCard"
 
-export default function Page() {
+export default function Page({ params: params }) {
+  console.log('slugs', params)
   const { data: session } = useSession();
   const [showBpForm, setShowBpForm] = useState(false)
 

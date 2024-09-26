@@ -3,14 +3,15 @@ import styles from "./style.module.css"
 import Image from "next/image"
 
 export interface BpCardProps {
+  id: number
   name: string
   description: string
   imgSrc: string
 }
 
-export function BpCard({ name, description, imgSrc }: BpCardProps ) {
+export function BpCard({ id, name, description, imgSrc }: BpCardProps ) {
   return (<div className={styles.item}>
-    <a href="#" className="flex flex-col">
+    <a href={`blueprints/${id}`} className="flex flex-col">
       <Image className="p-8 rounded-t-lg flex-center self-center justify-self-center max-h-lg" src={imgSrc} alt="product image" width={300} height={500} />
     </a>
     <div className="px-5 pb-5">

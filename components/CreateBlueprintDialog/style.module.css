@@ -1,5 +1,5 @@
 .button {
-  @apply px-3 py-2 bg-sky-600 rounded text-white flex items-center justify-center w-full;
+  @apply px-3 py-2 bg-indigo-600 rounded text-white flex items-center justify-center w-full;
 }
 
 .createBtn {
@@ -8,5 +8,5 @@
 
 .cancelBtn {
   @apply button;
-  @apply bg-sky-100 text-gray-800;
+  @apply bg-indigo-100 text-gray-800;
 }
