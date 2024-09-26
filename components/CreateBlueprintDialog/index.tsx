@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Dialog from "../Dialog"
 import { X } from "@phosphor-icons/react"
-
+import styles from "./style.module.css"
 export interface CreateBlueprintDialogProps {
   showDialog: boolean
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
@@ -91,8 +91,8 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
               <input className="block w-full text-sm text-white border border-stone-800 rounded-lg cursor-pointer bg-stone-900 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-stone-800" id="image" type="file" onChange={(e) => handleFileChange(e.target.files as FileList)} />
             </div>
             <div className="gap-4 flex justify-between">
-              <button type="button" className="px-3 py-2 bg-blue-100 rounded text-gray-700 flex items-center justify-center w-full">Cancel</button>
-              <button type="submit" className="px-3 py-2 bg-blue-500 rounded text-white flex items-center justify-center  w-full">Create Blueprint</button>
+              <button type="button" className={styles.cancelBtn}>Cancel</button>
+              <button type="submit" className={styles.createBtn}>Create Blueprint</button>
             </div>
           </form>
         </div>

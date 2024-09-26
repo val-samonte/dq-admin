@@ -15,11 +15,11 @@ export function BpCard({ name, description, imgSrc }: BpCardProps ) {
     </a>
     <div className="px-5 pb-5">
       <a href="#">
-        <h5 className="text-md font-semibold tracking-tight text-gray-900 dark:text-white pb-4"> { description } </h5>
+        <h5 className="text-md font-semibold tracking-tight text-white pb-4"> { description } </h5>
       </a>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-4">
           <a href="#">
-            <span className="text-xl font-bold text-gray-900 dark:text-white">{ name }</span>
+            <span className="text-xl font-bold text-white">{ name }</span>
           </a>
           <Button className={styles.recipeButton}>Create Recipe</Button>
       </div>
