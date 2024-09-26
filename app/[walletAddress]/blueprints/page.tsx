@@ -2,7 +2,6 @@
 
 import { Button } from "@headlessui/react"
 import { useSession } from "next-auth/react"
-import Image from "next/image"
 import styles from "./page.module.css";
 import { CreateBlueprintDialog } from "@/components/CreateBlueprintDialog"
 import { useState } from "react"
