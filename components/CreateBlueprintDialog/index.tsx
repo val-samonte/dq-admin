@@ -17,25 +17,27 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
       show={showDialog}
     >
       <div className="flex justify-center items-center">
-        <div className="flex flex-col p-8 max-h-full max-w-[600px] border border-gray-500 rounded-lg dark:border-gray-700 w-[600px]">
-          <span className="self-end hover cursor-pointer" onClick={handleClose}><X size={32} /></span>
-          <h1 className="my-4 text-3xl">Create new blueprint</h1>
-          <form className="mx-auto w-full">
-            <div className="relative z-0 w-full mb-5 group">
-                <input type="text" name="name" id="bp_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label htmlFor="bp_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+        <div className="flex flex-col max-h-full max-w-[600px] border border-gray-500 bg-stone-800 p-5 gap-4 rounded-xl dark:border-gray-700 w-[600px]">
+          <div className="header flex justify-between gap-4">
+            <h1 className="text-3xl font-bold inline-flex w-auto">Create a new Blueprint</h1>
+            <span className="cursor-pointer inline-flex" onClick={handleClose}><X size={32} /></span>
+          </div>
+          <form className="mx-auto w-full gap-4 flex flex-col ">
+            <div className="w-full group gap-2 flex flex-col">
+                <label htmlFor="bp_name" className="text-white-500">Name</label>
+                <input type="text" name="name" id="bp_name" className="bg-stone-900 border border-stone-800 text-white text-sm rounded-lg block w-full p-2.5 dark:bg-stone-900 dark:placeholder-gray-400 dark:text-white outline-none focus:outline-none" placeholder=" " required />
             </div>
-            <div className="relative z-0 w-full mb-5 group">
-                <input type="text" name="description" id="bp_description" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label htmlFor="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
+            <div className="w-full group gap-2 flex flex-col">
+                <label htmlFor="bp_description" className="text-white-500">Description</label>
+                <input type="text" name="description" id="bp_description" className="bg-stone-900 border border-stone-800 text-white text-sm rounded-lg block w-full p-2.5 dark:bg-stone-900 dark:placeholder-gray-400 dark:text-white outline-none focus:outline-none" placeholder=" " required />
             </div>
-            <div className="relative z-0 w-full mb-5 group">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="image">Upload image</label>
-              <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="image" type="file" />
+            <div className="w-full group gap-2 flex flex-col">
+              <label htmlFor="image" className="text-white-500">Upload Image</label>
+              <input className="block w-full text-sm text-white border border-stone-800 rounded-lg cursor-pointer bg-stone-900 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-stone-800" id="image" type="file" />
             </div>
-            <div className="grid md:grid-cols-2 md:gap-6">
-              <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Cancel</button>
-              <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+            <div className="gap-4 flex justify-between">
+              <button type="button" className="px-3 py-2 bg-blue-100 rounded text-gray-700 flex items-center justify-center w-full">Cancel</button>
+              <button type="submit" className="px-3 py-2 bg-blue-500 rounded text-white flex items-center justify-center  w-full">Create Blueprint</button>
             </div>
           </form>
         </div>
