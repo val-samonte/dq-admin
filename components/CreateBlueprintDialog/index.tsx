@@ -10,7 +10,7 @@ export interface CreateBlueprintDialogProps {
 export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: CreateBlueprintDialogProps) {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState<File>()
   const [loading, setLoading] = useState(false)
 
   const handleClose = () => {
@@ -18,12 +18,12 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
   }
 
   // Handle file input change
-  const handleFileChange = (e: React.FormEvent<HTMLInputElement>) => {
-      setFile(e.target.files[0])
+  const handleFileChange = (files: FileList) => {
+      setFile(files[0])
   }
 
   // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       const { } = e.target
       if (!name || !description || !file) {
@@ -54,6 +54,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
       } catch (error) {
           console.error('An error occurred during the upload:', error)
       } finally {
+          console.log(loading)
           setLoading(false)
       }
   }
@@ -87,7 +88,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
             </div>
             <div className="w-full group gap-2 flex flex-col">
               <label htmlFor="image" className="text-white-500">Upload Image</label>
-              <input className="block w-full text-sm text-white border border-stone-800 rounded-lg cursor-pointer bg-stone-900 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-stone-800" id="image" type="file" onChange={handleFileChange} />
+              <input className="block w-full text-sm text-white border border-stone-800 rounded-lg cursor-pointer bg-stone-900 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-stone-800" id="image" type="file" onChange={(e) => handleFileChange(e.target.files as FileList)} />
             </div>
             <div className="gap-4 flex justify-between">
               <button type="button" className="px-3 py-2 bg-blue-100 rounded text-gray-700 flex items-center justify-center w-full">Cancel</button>
