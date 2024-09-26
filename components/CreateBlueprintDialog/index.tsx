@@ -3,10 +3,14 @@ import { X } from "@phosphor-icons/react"
 
 export interface CreateBlueprintDialogProps {
   showDialog: boolean
-  setShowDialog: React.ReactNode
+  setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: CreateBlueprintDialogProps) {
+
+  const handleClose = () => {
+    setShowDialog(false)
+  }
 
   return (
     <Dialog
@@ -14,7 +18,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
     >
       <div className="flex justify-center items-center">
         <div className="flex flex-col p-8 max-h-full max-w-[600px] border border-gray-500 rounded-lg dark:border-gray-700 w-[600px]">
-          <span className="self-end hover cursor-pointer" onClick={() => setShowDialog(false)}><X size={32} /></span>
+          <span className="self-end hover cursor-pointer" onClick={handleClose}><X size={32} /></span>
           <h1 className="my-4 text-3xl">Create new blueprint</h1>
           <form className="mx-auto w-full">
             <div className="relative z-0 w-full mb-5 group">
