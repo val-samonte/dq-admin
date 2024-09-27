@@ -79,7 +79,7 @@ export default function Page({ params: params }) {
             </div>
 
             <h1 className="text-3xl font-bold">Recipes</h1>
-            <div className="recipe-container grid grid-cols-3 gap-4">
+            <div className="recipe-container grid grid-cols-4 gap-4">
               {recipes.map(recipe => {
                 return (
                 <div key={recipe.id} className={styles.recipe}>
