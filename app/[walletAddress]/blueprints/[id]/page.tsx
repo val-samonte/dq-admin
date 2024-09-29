@@ -5,32 +5,53 @@ import { useSession } from "next-auth/react"
 import Image from "next/image"
 import styles from "./page.module.css"
 
-export default function Page({ params: params }) {
+interface paramsType {
+  params: {
+    walletAddress: string
+    id: string
+  }
+}
+
+export default function Page({ params: params }: paramsType) {
   console.log('slugs', params)
   const { data: session } = useSession()
 
   const recipes = [
     {
       id: 1,
-      name: "recipe 1"
+      name: "recipe 1",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },{
       id: 2,
-      name: "recipe 2"
+      name: "recipe 2",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },{
       id: 3,
-      name: "recipe 3"
+      name: "recipe 3",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },{
       id: 4,
-      name: "recipe 4"
+      name: "recipe 4",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },{
       id: 5,
-      name: "recipe 5"
+      name: "recipe 5",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },{
       id: 6,
-      name: "recipe 6"
+      name: "recipe 6",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },{
       id: 7,
-      name: "recipe 7"
+      name: "recipe 7",
+      author: "231dasd21313asdad12312asd",
+      image: "img"
     },
   ]
 

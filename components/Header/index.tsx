@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { getCsrfToken, signIn, signOut, useSession } from "next-auth/react";
-import styles from "./header.module.css";
-import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { getCsrfToken, signIn, signOut, useSession } from "next-auth/react"
+import styles from "./style.module.css"
+import { useWalletModal } from "@solana/wallet-adapter-react-ui"
+import { useWallet } from "@solana/wallet-adapter-react"
 
 import bs58 from "bs58";
 import { useEffect } from "react";

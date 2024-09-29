@@ -6,8 +6,13 @@ import styles from "./page.module.css";
 import { CreateBlueprintDialog } from "@/components/CreateBlueprintDialog"
 import { useState } from "react"
 import { BpCard } from "@/components/BpCard"
+interface paramsType {
+  params: {
+    walletAddress: string
+  }
+}
 
-export default function Page({ params: params }) {
+export default function Page({ params: params }: paramsType) {
   console.log('slugs', params)
   const { data: session } = useSession();
   const [showBpForm, setShowBpForm] = useState(false)

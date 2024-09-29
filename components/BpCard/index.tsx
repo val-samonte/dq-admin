@@ -1,8 +1,10 @@
+"use client"
+
 import { Button } from "@headlessui/react"
 import styles from "./style.module.css"
 import Image from "next/image"
 
-export interface BpCardProps {
+interface BpCardProps {
   id: number
   name: string
   description: string
