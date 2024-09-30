@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AppWalletProvider from "@/components/AppWalletProvider"
 import { Provider } from "jotai"
+import { AtomsInitializer } from "./atoms/AtomsInitializer"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +24,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider>
           <AppWalletProvider>
-            <Header />
-            {children}
+            <AtomsInitializer>
+              <Header />
+              {children}
+            </AtomsInitializer>
           </AppWalletProvider>
         </Provider>
       </body>
