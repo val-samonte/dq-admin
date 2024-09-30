@@ -1,28 +1,17 @@
 import { atom } from 'jotai'
-import { rpcEndpointAtom } from './rpcEndpointAtom'
-import { connectionCommitmentAtom } from './connectionCommitmentAtom'
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
-import { keypairAtom } from './keypairAtom'
-import {
-  createSignerFromKeypair,
-  signerIdentity,
-} from '@metaplex-foundation/umi'
+import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters'
 import { mplCore } from '@metaplex-foundation/mpl-core'
 import { irysUploader } from '@metaplex-foundation/umi-uploader-irys'
+import { useWallet } from '@solana/wallet-adapter-react'
 
-export const umiAtom = atom((get) => {
-  const rpc = get(rpcEndpointAtom)
-  const commitment = get(connectionCommitmentAtom)
-  const kp = get(keypairAtom)
-  const umi = createUmi(rpc, commitment)
-
+export const umiAtom = atom(() => {
+  const wallet = useWallet()
+  const umi = createUmi('https://api.devnet.solana.com')
   umi.use(mplCore())
-  umi.use(irysUploader())
-
-  if (kp) {
-    const keypair = umi.eddsa.createKeypairFromSecretKey(kp.secretKey)
-    const signer = createSignerFromKeypair(umi, keypair)
-    umi.use(signerIdentity(signer, true))
+  umi.use(irysUploader({address: "https://devnet.irys.xyz"}))
+  if (wallet) {
+    umi.use(walletAdapterIdentity(wallet))
   }
 
   return umi

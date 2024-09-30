@@ -4,8 +4,7 @@ import { X } from "@phosphor-icons/react"
 import styles from "./style.module.css"
 import { useAtomValue } from "jotai"
 import { umiAtom } from "@/app/atoms/umiAtom"
-// import { generateSigner } from "@metaplex-foundation/umi"
-// import { create } from "@metaplex-foundation/mpl-core"
+import { createGenericFile } from "@metaplex-foundation/umi"
 // import { masterAddress } from "@/constants/addresses"
 export interface CreateBlueprintDialogProps {
   showDialog: boolean
@@ -39,33 +38,20 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
 
     setBusy(true)
     try {
+      const buffer = URL.createObjectURL(file);
+      const umiImageFile = createGenericFile(buffer, file.name, {
+        tags: [{ name: 'Content-Type', value: file.type }],
+      })
+      const uriUploadArray = await umi.uploader.upload([umiImageFile])
+      console.log('img?', uriUploadArray)
+
       const uri = await umi.uploader.uploadJson({
         name,
         description: description,
-        image: file,
+        image: uriUploadArray[0],
       })
 
-      console.log(uri)
-      // await create(umi, {
-      //   asset: assetSigner,
-      //   name,
-      //   uri,
-      //   owner: umi.identity.publicKey,
-      //   updateAuthority: masterAddress,
-      //   plugins: [
-      //     {
-      //       type: 'PermanentFreezeDelegate',
-      //       frozen: false,
-      //       authority: { type: 'Address', address: masterAddress },
-      //     },
-      //     {
-      //       type: 'PermanentBurnDelegate',
-      //       authority: { type: 'Address', address: masterAddress },
-      //     },
-      //   ],
-      // }).sendAndConfirm(umi)
-
-      // console.log(assetSigner)
+      console.log('json', uri)
 
       setTimeout(() => {
         setBusy(false)
