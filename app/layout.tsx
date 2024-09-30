@@ -4,8 +4,6 @@ import "./page.module.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AppWalletProvider from "@/components/AppWalletProvider"
-import { Provider } from "jotai"
-import { AtomsInitializer } from "./atoms/AtomsInitializer"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,14 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider>
-          <AppWalletProvider>
-            <AtomsInitializer>
-              <Header />
-              {children}
-            </AtomsInitializer>
-          </AppWalletProvider>
-        </Provider>
+        <AppWalletProvider>
+          <Header />
+          {children}
+        </AppWalletProvider>
       </body>
     </html>
   )

@@ -14,6 +14,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 // Default styles that can be overridden by your app
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { SessionProvider } from "next-auth/react"
+import { AtomsInitializer } from "@/app/atoms/AtomsInitializer"
 
 export function AppWalletProvider({
   children,
@@ -38,7 +39,9 @@ export function AppWalletProvider({
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <SessionProvider>
-            {children}
+            <AtomsInitializer>
+              {children}
+            </AtomsInitializer>
           </SessionProvider>
         </WalletModalProvider>
       </WalletProvider>

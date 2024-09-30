@@ -2,6 +2,11 @@ import { useState } from "react"
 import Dialog from "../Dialog"
 import { X } from "@phosphor-icons/react"
 import styles from "./style.module.css"
+import { useAtomValue } from "jotai"
+import { umiAtom } from "@/app/atoms/umiAtom"
+// import { generateSigner } from "@metaplex-foundation/umi"
+// import { create } from "@metaplex-foundation/mpl-core"
+// import { masterAddress } from "@/constants/addresses"
 export interface CreateBlueprintDialogProps {
   showDialog: boolean
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
@@ -11,7 +16,8 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [file, setFile] = useState<File>()
-  const [loading, setLoading] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const umi = useAtomValue(umiAtom)
 
   const handleClose = () => {
     setShowDialog(false)
@@ -24,39 +30,53 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      const { } = e.target
-      if (!name || !description || !file) {
-          alert('Please fill out all fields.')
-          return
-      }
+    e.preventDefault()
+    const { } = e.target
+    if (!name || !description || !file) {
+        alert('Please fill out all fields.')
+        return
+    }
 
-      setLoading(true)
+    setBusy(true)
+    try {
+      const uri = await umi.uploader.uploadJson({
+        name,
+        description: description,
+        image: file,
+      })
 
-      const formData = new FormData()
-      formData.append('name', name)
-      formData.append('description', description)
-      formData.append('file', file)
+      console.log(uri)
+      // await create(umi, {
+      //   asset: assetSigner,
+      //   name,
+      //   uri,
+      //   owner: umi.identity.publicKey,
+      //   updateAuthority: masterAddress,
+      //   plugins: [
+      //     {
+      //       type: 'PermanentFreezeDelegate',
+      //       frozen: false,
+      //       authority: { type: 'Address', address: masterAddress },
+      //     },
+      //     {
+      //       type: 'PermanentBurnDelegate',
+      //       authority: { type: 'Address', address: masterAddress },
+      //     },
+      //   ],
+      // }).sendAndConfirm(umi)
 
-      try {
-          const res = await fetch('/api/upload', {
-              method: 'POST',
-              body: formData,
-          })
+      // console.log(assetSigner)
 
-          const data = await res.json()
+      setTimeout(() => {
+        setBusy(false)
+      }, 1000)
 
-          if (res.ok) {
-              console.log('Upload successful!', data)
-          } else {
-              console.error('Upload failed:', data.error)
-          }
-      } catch (error) {
-          console.error('An error occurred during the upload:', error)
-      } finally {
-          console.log(loading)
-          setLoading(false)
-      }
+    } catch (e) {
+
+      console.log(e)
+
+      setBusy(false)
+    }
   }
 
   return (
@@ -92,7 +112,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
             </div>
             <div className="gap-4 flex justify-between">
               <button type="button" className={styles.cancelBtn}>Cancel</button>
-              <button type="submit" className={styles.createBtn}>Create Blueprint</button>
+              <button type="submit" className={styles.createBtn} disabled={busy}>Create Blueprint</button>
             </div>
           </form>
         </div>
