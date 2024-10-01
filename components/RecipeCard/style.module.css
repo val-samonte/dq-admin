@@ -1,3 +1,3 @@
 .recipe {
-  @apply max-w-sm bg-stone-800 border border-none rounded-lg shadow text-white inline-flex flex-col p-16 items-center justify-start;
+  @apply max-w-sm bg-stone-800 border border-none rounded-lg shadow text-white inline-flex flex-col p-4 items-start justify-start gap-2 w-full;
 }
