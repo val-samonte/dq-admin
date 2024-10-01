@@ -7,6 +7,7 @@ import { umiAtom } from "@/app/atoms/umiAtom"
 import { createGenericFileFromBrowserFile } from "@metaplex-foundation/umi"
 import { getUri } from "@/utils/getUri"
 import { rpcEndpointAtom } from "@/app/atoms/rpcEndpointAtom"
+import Image from "next/image"
 export interface CreateBlueprintDialogProps {
   showDialog: boolean
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
@@ -19,6 +20,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
   const [busy, setBusy] = useState(false)
   const umi = useAtomValue(umiAtom)
   const rpc = useAtomValue(rpcEndpointAtom)
+  const [previewImg, setPreviewImg] = useState('/images/image-placeholder.png')
 
   const handleClose = () => {
     setShowDialog(false)
@@ -43,7 +45,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
       const umiImageFile = await createGenericFileFromBrowserFile(file)
       const [imgUri] = await umi.uploader.upload([umiImageFile])
       console.log('img?', getUri(rpc, imgUri))
-
+      setPreviewImg(getUri(rpc, imgUri))
       const uri = await umi.uploader.uploadJson({
         name,
         description: description,
@@ -74,32 +76,35 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
             <h1 className="text-3xl font-bold inline-flex w-auto">Create a new Blueprint</h1>
             <span className="cursor-pointer inline-flex" onClick={handleClose}><X size={32} /></span>
           </div>
-          <form className="mx-auto w-full gap-4 flex flex-col" onSubmit={handleSubmit}>
-            <div className="w-full group gap-2 flex flex-col">
-                <label htmlFor="bp_name" className="text-white-500">Name</label>
-              <input type="text" name="name" id="bp_name" className="bg-stone-900 border border-stone-800 text-white text-sm rounded-lg block w-full p-2.5 dark:bg-stone-900 dark:placeholder-gray-400 dark:text-white outline-none focus:outline-none"
-                placeholder=" "
-                required
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="w-full group gap-2 flex flex-col">
-                <label htmlFor="bp_description" className="text-white-500">Description</label>
-              <input type="text" name="description" id="bp_description" className="bg-stone-900 border border-stone-800 text-white text-sm rounded-lg block w-full p-2.5 dark:bg-stone-900 dark:placeholder-gray-400 dark:text-white outline-none focus:outline-none"
-                placeholder=" "
-                required
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div className="w-full group gap-2 flex flex-col">
-              <label htmlFor="image" className="text-white-500">Upload Image</label>
-              <input className="block w-full text-sm text-white border border-stone-800 rounded-lg cursor-pointer bg-stone-900 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-stone-800" id="image" type="file" onChange={(e) => handleFileChange(e.target.files as FileList)} />
-            </div>
-            <div className="gap-4 flex justify-between">
-              <button type="button" className={styles.cancelBtn}>Cancel</button>
-              <button type="submit" className={styles.createBtn} disabled={busy}>Create Blueprint</button>
-            </div>
-          </form>
+          <div className="flex max-h-full max-w-full gap-4">
+            <Image src={previewImg} height={200} width={200} className="p-1" objectFit="contain" alt="preview" />
+            <form className="mx-auto w-full gap-4 flex flex-col" onSubmit={handleSubmit}>
+              <div className="w-full group gap-2 flex flex-col">
+                  <label htmlFor="bp_name" className="text-white-500">Name</label>
+                <input type="text" name="name" id="bp_name" className="bg-stone-900 border border-stone-800 text-white text-sm rounded-lg block w-full p-2.5 dark:bg-stone-900 dark:placeholder-gray-400 dark:text-white outline-none focus:outline-none"
+                  placeholder=" "
+                  required
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="w-full group gap-2 flex flex-col">
+                  <label htmlFor="bp_description" className="text-white-500">Description</label>
+                <input type="text" name="description" id="bp_description" className="bg-stone-900 border border-stone-800 text-white text-sm rounded-lg block w-full p-2.5 dark:bg-stone-900 dark:placeholder-gray-400 dark:text-white outline-none focus:outline-none"
+                  placeholder=" "
+                  required
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="w-full group gap-2 flex flex-col">
+                <label htmlFor="image" className="text-white-500">Upload Image</label>
+                <input className="block w-full text-sm text-white border border-stone-800 rounded-lg cursor-pointer bg-stone-900 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-stone-800" id="image" type="file" onChange={(e) => handleFileChange(e.target.files as FileList)} />
+              </div>
+              <div className="gap-4 flex justify-between">
+                <button type="button" className={styles.cancelBtn}>Cancel</button>
+                <button type="submit" className={styles.createBtn} disabled={busy}>Create Blueprint</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </Dialog>
