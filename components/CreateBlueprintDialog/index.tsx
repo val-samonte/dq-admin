@@ -4,8 +4,9 @@ import { X } from "@phosphor-icons/react"
 import styles from "./style.module.css"
 import { useAtomValue } from "jotai"
 import { umiAtom } from "@/app/atoms/umiAtom"
-import { createGenericFile } from "@metaplex-foundation/umi"
-// import { masterAddress } from "@/constants/addresses"
+import { createGenericFileFromBrowserFile } from "@metaplex-foundation/umi"
+import { getUri } from "@/utils/getUri"
+import { rpcEndpointAtom } from "@/app/atoms/rpcEndpointAtom"
 export interface CreateBlueprintDialogProps {
   showDialog: boolean
   setShowDialog: React.Dispatch<React.SetStateAction<boolean>>
@@ -17,6 +18,7 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
   const [file, setFile] = useState<File>()
   const [busy, setBusy] = useState(false)
   const umi = useAtomValue(umiAtom)
+  const rpc = useAtomValue(rpcEndpointAtom)
 
   const handleClose = () => {
     setShowDialog(false)
@@ -38,20 +40,17 @@ export function CreateBlueprintDialog({ showDialog = false, setShowDialog }: Cre
 
     setBusy(true)
     try {
-      const buffer = URL.createObjectURL(file);
-      const umiImageFile = createGenericFile(buffer, file.name, {
-        tags: [{ name: 'Content-Type', value: file.type }],
-      })
-      const uriUploadArray = await umi.uploader.upload([umiImageFile])
-      console.log('img?', uriUploadArray)
+      const umiImageFile = await createGenericFileFromBrowserFile(file)
+      const [imgUri] = await umi.uploader.upload([umiImageFile])
+      console.log('img?', getUri(rpc, imgUri))
 
       const uri = await umi.uploader.uploadJson({
         name,
         description: description,
-        image: uriUploadArray[0],
+        image: getUri(rpc, imgUri),
       })
 
-      console.log('json', uri)
+      console.log('json', getUri(rpc, uri))
 
       setTimeout(() => {
         setBusy(false)
